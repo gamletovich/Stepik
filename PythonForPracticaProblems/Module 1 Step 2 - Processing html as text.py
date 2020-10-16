@@ -15,7 +15,7 @@ max_counter = max(counter.values())
 answer = ""
 for k, v in counter.items():
     if v == max_counter:
-        print (k, v)
+        print(k, v)
         answer = answer + k + " "
 
 print(answer)
