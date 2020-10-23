@@ -33,7 +33,4 @@ wb = xlrd.open_workbook('D:\\Downloads\\trekking1.xlsx')
 sheet_names = wb.sheet_names()
 sh = wb.sheet_by_name(sheet_names[0])
 
-
-
 print(np.array(sh.row_values(0 + i, 0)))
-
