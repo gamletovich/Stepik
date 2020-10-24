@@ -9,7 +9,7 @@
 # Help him and arrange foods in descending order of calories.
 # In case the products have the same calorie content, sort them by name.
 # Submit the product names as an answer, one per line.
-#
+""""""
 # Васю назначили завхозом в туристической группе и он подошёл к подготовке ответственно,
 # составив справочник продуктов с указанием калорийности на 100 грамм, а также содержание белков,
 # жиров и углеводов на 100 грамм продукта. Ему не удалось найти всю информацию,
@@ -24,13 +24,7 @@
 
 import pandas as pd
 
-data = pd.read_excel('D:\\Downloads\\trekking1.xlsx', index_col=0)
+data = pd.ExcelFile('D:\\Downloads\\trekking1.xlsx').parse()
+print(*data.sort_values(by=['ККал на 100', 'Unnamed: 0'], ascending=[False, True])["Unnamed: 0"].to_list(), sep='\n')
 
-import xlrd
-import numpy as np
 
-wb = xlrd.open_workbook('D:\\Downloads\\trekking1.xlsx')
-sheet_names = wb.sheet_names()
-sh = wb.sheet_by_name(sheet_names[0])
-
-print(np.array(sh.row_values(0 + i, 0)))
