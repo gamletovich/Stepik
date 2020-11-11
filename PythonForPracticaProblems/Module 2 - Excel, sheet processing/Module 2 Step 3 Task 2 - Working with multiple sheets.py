@@ -39,23 +39,34 @@ dict_carbohydrates_content = sheet_1.sort_values(by=['Unnamed: 0'])['У на 100
 plan_items = sheet_2.sort_values(by=['Продукт'])["Продукт"].to_list()
 plan_amount = sheet_2.sort_values(by=['Продукт'])['Вес в граммах'].to_list()
 
-sum_calorie_content = 0
-sum_protein_content = 0
-sum_fat_content = 0
-sum_carbohydrates_content = 0
+sum_calorie = 0
+sum_protein = 0
+sum_fat = 0
+sum_carbohydrates = 0
 
-for el in set(plan_items):
-    sum_calorie_content = sum_calorie_content + (
-            dict_calorie_content[dict_items.index(el)] * plan_amount[plan_items.index(el)] / 100)
-    sum_protein_content = sum_protein_content + (
-            dict_protein_content[dict_items.index(el)] * plan_amount[plan_items.index(el)] / 100)
-    sum_fat_content = sum_fat_content + (
-            dict_fat_content[dict_items.index(el)] * dict_calorie_content[plan_items.index(el)] / 100)
+for el in plan_items:
+
+    amount = plan_amount[plan_items.index(el)]
+    calorie = dict_calorie_content[dict_items.index(el)]
+    protein = dict_protein_content[dict_items.index(el)]
+    fat = dict_fat_content[dict_items.index(el)]
+    carbohydrates = dict_carbohydrates_content[dict_items.index(el)]
+
+    print("{:<35} {:<5} {:<7} {:<5} {:<5} {:<5}".format(el, amount, calorie, protein, fat, carbohydrates),
+          end="   ---   ")
+
+    sum_calorie = sum_calorie + (amount / 100 * calorie)
+    sum_protein = sum_protein + (amount / 100 * protein)
+    sum_fat = sum_fat + (amount / 100 * fat)
     if dict_carbohydrates_content[dict_items.index(el)] > 0:
-        sum_carbohydrates_content = sum_carbohydrates_content + (
-                dict_carbohydrates_content[dict_items.index(el)] * plan_amount[plan_items.index(el)] / 100)
+        sum_carbohydrates = sum_carbohydrates + (amount / 100 * carbohydrates)
 
-print(math.trunc(sum_calorie_content), end=", ")
-print(math.trunc(sum_protein_content), end=", ")
-print(math.trunc(sum_fat_content), end=", ")
-print(math.trunc(sum_carbohydrates_content))
+    print(math.trunc(sum_calorie), end=" ")
+    print(math.trunc(sum_protein), end=" ")
+    print(math.trunc(sum_fat), end=" ")
+    print(math.trunc(sum_carbohydrates))
+
+print(math.trunc(sum_calorie), end=" ")
+print(math.trunc(sum_protein), end=" ")
+print(math.trunc(sum_fat), end=" ")
+print(math.trunc(sum_carbohydrates))
