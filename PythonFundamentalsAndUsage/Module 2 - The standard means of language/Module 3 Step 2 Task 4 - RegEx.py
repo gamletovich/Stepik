@@ -11,8 +11,8 @@ Sample Output:
 """
 import re
 import sys
-
+pattern = r'\b(.+)\1\b'
 for line in sys.stdin:
-    line = line.strip()
-    if re.search(r"\\", line):
+    line = line.rstrip()
+    if re.search(pattern, line):
         print(line)
