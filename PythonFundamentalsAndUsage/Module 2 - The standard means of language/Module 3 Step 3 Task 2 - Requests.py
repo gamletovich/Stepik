@@ -25,4 +25,22 @@ stepic.org
 www.ya.ru
 ya.ru
 """
+from lxml import html
+import requests
+import re
 
+def get_links(page):
+    try:
+        res = requests.get(page)
+        webpage = html.fromstring(res.text)
+        return webpage.xpath('//a/@href')
+    except:
+        return []
+
+
+href = input().strip()
+
+pattern = r'\b(\w)(\w)(\w*)\b'
+
+for link in get_links(href):
+    print(re.sub(pattern, r'\2\1\3', link.rstrip()))
