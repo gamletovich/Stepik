@@ -34,11 +34,10 @@ from lxml import html
 import requests
 
 
-def get_links(page):
+def get_links(pg):
     try:
-        res = requests.get(page)
-        webpage = html.fromstring(res.content)
-        return webpage.xpath('//a/@href')
+        links = html.fromstring(requests.get(pg).content).xpath('//a/@href')
+        return links
     except:
         return []
 
