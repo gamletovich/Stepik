@@ -40,41 +40,31 @@ dict_protein_content = sheet_1.sort_values(by=['Unnamed: 0'])['Б на 100'].to_
 dict_fat_content = sheet_1.sort_values(by=['Unnamed: 0'])['Ж на 100'].to_list()
 dict_carbohydrates_content = sheet_1.sort_values(by=['Unnamed: 0'])['У на 100'].to_list()
 
-days = sheet_2["День"].to_list()
-plan_items = sheet_2["Продукт"].to_list()
-plan_amount = sheet_2.sort_values(by=['Продукт'])['Вес в граммах'].to_list()
+for el in sheet_2.groupby(by="День"):
+    # print("-----------------DAY {day}-----------------".format(day=el[0]))
 
-print("----------DAY----------")
-sum_calorie = 0
-sum_protein = 0
-sum_fat = 0
-sum_carbohydrates = 0
+    sum_calorie = 0
+    sum_protein = 0
+    sum_fat = 0
+    sum_carbohydrates = 0
 
-for i in range(len(plan_items)):
-    if day == days[plan_items.index(plan_items[i])]:
-        continue
-        amount = plan_amount[plan_items.index(plan_items[i])]
-        calorie = dict_calorie_content[dict_items.index(plan_items[i])]
-        protein = dict_protein_content[dict_items.index(plan_items[i])]
-        fat = dict_fat_content[dict_items.index(plan_items[i])]
-        carbohydrates = dict_carbohydrates_content[dict_items.index(plan_items[i])]
+    for item in el[1][['Продукт', 'Вес в граммах']].values:
+        food, amount = item
 
-        print(
-            "{:<35} {:<5} {:<7} {:<5} {:<5} {:<5}".format(plan_items[i], amount, calorie, protein, fat, carbohydrates),
-            end="   ---   ")
+        calorie = dict_calorie_content[dict_items.index(food)]
+        protein = dict_protein_content[dict_items.index(food)]
+        fat = dict_fat_content[dict_items.index(food)]
+        carbohydrates = dict_carbohydrates_content[dict_items.index(food)]
 
         sum_calorie = sum_calorie + (amount / 100 * calorie)
         sum_protein = sum_protein + (amount / 100 * protein)
         sum_fat = sum_fat + (amount / 100 * fat)
-        if dict_carbohydrates_content[dict_items.index(el)] > 0:
+        if dict_carbohydrates_content[dict_items.index(food)] > 0:
             sum_carbohydrates = sum_carbohydrates + (amount / 100 * carbohydrates)
 
-        print(math.trunc(sum_calorie), end=" ")
-        print(math.trunc(sum_protein), end=" ")
-        print(math.trunc(sum_fat), end=" ")
-        print(math.trunc(sum_carbohydrates))
+    print(math.trunc(sum_calorie), end=" ")
+    print(math.trunc(sum_protein), end=" ")
+    print(math.trunc(sum_fat), end=" ")
+    print(math.trunc(sum_carbohydrates))
 
-print(math.trunc(sum_calorie), end=" ")
-print(math.trunc(sum_protein), end=" ")
-print(math.trunc(sum_fat), end=" ")
-print(math.trunc(sum_carbohydrates))
+
